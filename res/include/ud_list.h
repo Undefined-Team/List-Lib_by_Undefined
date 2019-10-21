@@ -46,22 +46,6 @@
         _curr->next; \
     })
 
-# define ud_list_free(ctype, _list) \
-    ({ \
-        void (*fp_free)(void *val) = _list->fp_free; \
-        ctype *_curr = _list; \
-        ctype *_tmp; \
-        while (_curr) \
-        { \
-            _tmp = _curr; \
-            _curr = _curr->next; \
-            if (fp_free) fp_free(_tmp); \
-            else ud_ut_free(_tmp); \
-        } \
-        _list = NULL; \
-        _list; \
-    })
-
 # define ud_list_push(ctype, _list, declaration)        ud_list_push_ctr(0, ctype, _list, declaration)
 # define ud_list_push_last(ctype, _list, declaration)   ud_list_push_ctr(1, ctype, _list, declaration)
 # define ud_list_fpush(ctype, _list, fp, ...)           ud_list_fpush_ctr(0, ctype, _list, fp, __VA_ARGS__)
@@ -74,7 +58,7 @@
 # define ud_lst_push_last(ctype, _list, declaration)    ud_list_push_ctr(1, ctype, _list, declaration)
 # define ud_lst_fpush(ctype, _list, fp, ...)            ud_list_fpush_ctr(0, ctype, _list, fp, __VA_ARGS__)
 # define ud_lst_fpush_last(ctype, _list, fp, ...)       ud_list_fpush_ctr(1, ctype, _list, fp, __VA_ARGS__)
-# define ud_lst_free(ctype, _list)                      ud_list_free(ctype, _list)
+# define ud_lst_free(ctype, _list)                      ud_list_free(_list)
 
 
 // Structures
@@ -86,5 +70,6 @@ typedef struct      uds_list {
 
 // Prototypes
 void        *ud_list_init_ctr(size_t len);
+void        ud_list_free(void *list);
 
 #endif
