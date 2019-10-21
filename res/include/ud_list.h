@@ -6,6 +6,14 @@
 #include <ud_memory.h>
 
 // Macro
+# define ud_list_minit(ctype) \
+    ({ \
+        ctype *_list; \
+        size_t len = sizeof(ctype); \
+        _list = ud_list_init_ctr(len); \
+        _list; \
+    })
+
 # define ud_list_init(ctype, declaration) \
     ({ \
         ctype *_list; \
@@ -54,6 +62,7 @@
 // macros for using ud_lst instead of ud_list
 # define ud_lst_init(ctype, declaration)                ud_list_init(ctype, declaration)
 # define ud_lst_finit(ctype, fp, ...)                   ud_list_init(ctype, fp, __VA_ARGS__)
+# define ud_lst_minit(ctype)                            ud_list_minit(ctype)
 # define ud_lst_push(ctype, _list, declaration)         ud_list_push_ctr(0, ctype, _list, declaration)
 # define ud_lst_push_last(ctype, _list, declaration)    ud_list_push_ctr(1, ctype, _list, declaration)
 # define ud_lst_fpush(ctype, _list, fp, ...)            ud_list_fpush_ctr(0, ctype, _list, fp, __VA_ARGS__)
