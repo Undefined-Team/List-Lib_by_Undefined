@@ -1,11 +1,11 @@
 #include "ud_list.h"
 
-ud_list     *ud_list_init(void *data)
+void        *ud_list_init_ctr(size_t len)
 {
-    ud_list *elem;
+    void    *elem = NULL;
 
-    UD_UT_PROT_MALLOC(elem = ud_ut_malloc(sizeof(ud_list)));
-    elem->data = data;
-    elem->next = NULL;
+    UD_UT_PROT_MALLOC(elem = ud_ut_malloc(len));
+    ((ud_list *)elem)->fp_free = NULL;
+    ((ud_list *)elem)->next = NULL;
     return elem;
 }
