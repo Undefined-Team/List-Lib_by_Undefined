@@ -33,5 +33,6 @@ ud_list     *ud_list_init(void *data);
 void        ud_list_free(ud_list *begin);
 ud_list     *ud_list_add(ud_list *begin, void *data);
 ud_list     *ud_list_add_last(ud_list *last, void *data);
+ud_list     *ud_list_init_or_push(ud_list *list, void *data);
 
 #endif
