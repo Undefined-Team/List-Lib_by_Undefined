@@ -3,6 +3,7 @@
 
 // Lib
 #include <ud_utils.h>
+#include <ud_memory.h>
 
 // Macro
 # define ud_list_print(list, ctype, format_str) ({ ud_list *_list = list; while (_list) { printf(format_str, (ctype)_list->data); printf("\n"); _list = _list->next; } })
@@ -25,6 +26,8 @@
         ctype *_list; \
         size_t len = sizeof(ctype); \
         _list = ud_list_init_ctr(len); \
+        _list->next = NULL; \
+        _list->fp_free = NULL; \
         _list->declaration; \
         _list; \
     })
@@ -34,6 +37,8 @@
         ctype *_list; \
         size_t len = sizeof(ctype); \
         _list = ud_list_init_ctr(len); \
+        _list->next = NULL; \
+        _list->fp_free = NULL; \
         fp(_list, __VA_ARGS__); \
         _list; \
     })
@@ -45,6 +50,8 @@
             while (_curr->next) \
                 _curr = _curr->next; \
         _curr->next = ud_list_init_ctr(sizeof(*_list)); \
+        _curr->next->next = NULL; \
+        _curr->next->fp_free = NULL; \
         _curr->next->declaration; \
         _curr->next; \
     })
@@ -56,6 +63,8 @@
             while (_curr->next) \
                 _curr = _curr->next; \
         _curr->next = ud_list_init_ctr(sizeof(*_list)); \
+        _curr->next->next = NULL; \
+        _curr->next->fp_free = NULL; \
         fp(_curr->next, __VA_ARGS__); \
         _curr->next; \
     })

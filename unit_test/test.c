@@ -38,21 +38,21 @@ int main(void)
     ud_list_push(ud_list_test, list2, b = 2);
     ud_list_push(ud_list_test, list3, a = ud_str_dup("test3"));
 
-    ud_list_test *list_tmp = list;
-    while (list_tmp) {
-        printf("%s%s %zd\n", UD_UT_COLOR_1, list_tmp->a, list_tmp->b);
-        list_tmp = list_tmp->next;
-    }
-    ud_list_test *list2_tmp = list2;
-    while (list2_tmp) {
-        printf("%s%s %zd\n", UD_UT_COLOR_2, list2_tmp->a, list2_tmp->b);
-        list2_tmp = list2_tmp->next;
-    }
-    ud_list_test *list3_tmp = list3;
-    while (list3_tmp) {
-        printf("%s%s %zd\n", UD_UT_COLOR_3, list3_tmp->a, list3_tmp->b);
-        list3_tmp = list3_tmp->next;
-    }
+    // ud_list_test *list_tmp = list;
+    // while (list_tmp) {
+    //     printf("%s%s %zd\n", UD_UT_COLOR_1, list_tmp->a, list_tmp->b);
+    //     list_tmp = list_tmp->next;
+    // }
+    // ud_list_test *list2_tmp = list2;
+    // while (list2_tmp) {
+    //     printf("%s%s %zd\n", UD_UT_COLOR_2, list2_tmp->a, list2_tmp->b);
+    //     list2_tmp = list2_tmp->next;
+    // }
+    // ud_list_test *list3_tmp = list3;
+    // while (list3_tmp) {
+    //     printf("%s%s %zd\n", UD_UT_COLOR_3, list3_tmp->a, list3_tmp->b);
+    //     list3_tmp = list3_tmp->next;
+    // }
     ud_list_free(ud_list_test, list);
     ud_list_free(ud_list_test, list2);
     ud_list_free(ud_list_test, list3);
