@@ -34,7 +34,7 @@
 
 # define ud_list_mpush_ctr(_list) \
     ({ \
-        ctype _curr = _list; \
+        typeof(_list) _curr = _list; \
         while (_curr->next) \
             _curr = _curr->next; \
         _curr->next = ud_list_init_ctr(sizeof(*_list)); \
