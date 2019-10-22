@@ -16,8 +16,9 @@ void    ud_free_list_test(void *val)
     ud_ut_free(to_free);
 }
 
-void    ud_fill_list(ud_list_test *list, char *a, size_t b)
+void    ud_fill_list(ud_list_test *list, void (*fp_free)(void *val), char *a, size_t b)
 {
+    list->fp_free = fp_free;
     list->a = a;
     list->b = b;
 }
@@ -26,17 +27,17 @@ int main(void)
 {
     ud_list_test *list = ud_list_init(ud_list_test, a = ud_str_dup("salut"));
     list->fp_free = ud_free_list_test;
-    ud_list_test *list2 = ud_list_init(ud_list_test, fp_free = ud_free_list_test);
+    ud_list_test *list2 = ud_list_finit(ud_list_test, ud_fill_list, &ud_free_list_test, ud_str_dup("test ud fill fp"), 4);
     ud_list_test *list3 = ud_list_init(ud_list_test, a = ud_str_dup("test"));
     list3->fp_free = ud_free_list_test;
 
-    ud_list_push(ud_list_test, list, b = 2);
-    ud_list_fpush(ud_list_test, list, ud_fill_list, ud_str_dup("this is fp"), 2);
-    ud_list_push(ud_list_test, list, a = ud_str_dup("slt"));
-    ud_list_push(ud_list_test, list, a = ud_str_dup("slt"));
-    ud_list_push(ud_list_test, list2, a = ud_str_dup("test"));
-    ud_list_push(ud_list_test, list2, b = 2);
-    ud_list_push(ud_list_test, list3, a = ud_str_dup("test3"));
+    ud_list_push(list, b = 2);
+    ud_list_fpush(list, ud_fill_list, &ud_free_list_test, ud_str_dup("this is fp"), 2);
+    ud_list_push(list, a = ud_str_dup("slt"));
+    ud_list_push(list, a = ud_str_dup("slt"));
+    ud_list_push(list2, a = ud_str_dup("test"));
+    ud_list_push(list2, b = 2);
+    ud_list_push(list3, a = ud_str_dup("test3"));
 
     ud_list_test *list_tmp = list;
     while (list_tmp) {
