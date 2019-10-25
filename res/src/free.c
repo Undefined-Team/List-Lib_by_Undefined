@@ -1,8 +1,10 @@
 #include "ud_list.h"
 
-void    ud_list_free(void *list)
+void    ud_list_free_ctr(char *type_name, void *list)
 {
-    void (*fp_free)(void *val) = ((ud_list *)list)->fp_free;
+    ud_list_type *type_info = ud_list_type_search(type_name);
+    void (*fp_free)(void *val) = NULL;
+    if (type_info) fp_free = type_info->fp_free;
     ud_list *curr = list;
     ud_list *tmp;
     while (curr)
@@ -12,5 +14,6 @@ void    ud_list_free(void *list)
         if (fp_free) fp_free(tmp);
         else ud_ut_free(tmp);
     }
+    (void)type_name;
     list = NULL;
 }

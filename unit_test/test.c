@@ -3,7 +3,6 @@
 #include <ud_utils.h>
 
 typedef struct uds_list_test {
-    void (*fp_free)(void *val);
     struct uds_list_test *next;
     char *a;
     size_t b;
@@ -16,23 +15,28 @@ void    ud_free_list_test(void *val)
     ud_ut_free(to_free);
 }
 
-void    ud_fill_list(ud_list_test *list, void (*fp_free)(void *val), char *a, size_t b)
+void    ud_fill_list(ud_list_test *list, char *a, size_t b)
 {
-    list->fp_free = fp_free;
     list->a = a;
     list->b = b;
 }
 
+ud_list_type *ud_list_type_test(void)
+{
+    static ud_list_type *ud_list_type_test = NULL;
+    if (!ud_list_type_test) ud_list_type_test = ud_list_type_search(ud_list_type_test);
+    return ud_list_type_test;
+}
+
 int main(void)
 {
+    ud_list_test *list4 = ud_list_tinit(ud_list_test, &ud_free_list_test, NULL);
     ud_list_test *list = ud_list_init(ud_list_test, a = ud_str_dup("salut"));
-    list->fp_free = ud_free_list_test;
-    ud_list_test *list2 = ud_list_finit(ud_list_test, ud_fill_list, &ud_free_list_test, ud_str_dup("test ud fill fp"), 4);
+    ud_list_test *list2 = ud_list_finit(ud_list_test, ud_fill_list, ud_str_dup("test ud fill fp"), 4);
     ud_list_test *list3 = ud_list_init(ud_list_test, a = ud_str_dup("test"));
-    list3->fp_free = ud_free_list_test;
 
     ud_list_push(list, b = 2);
-    ud_list_fpush(list, ud_fill_list, &ud_free_list_test, ud_str_dup("this is fp"), 2);
+    ud_list_fpush(list, ud_fill_list, ud_str_dup("this is fp"), 2);
     ud_list_push(list, a = ud_str_dup("slt"));
     ud_list_push(list, a = ud_str_dup("slt"));
     ud_list_push(list2, a = ud_str_dup("test"));
@@ -54,7 +58,9 @@ int main(void)
         printf("%s%s %zd\n", UD_UT_COLOR_3, list3_tmp->a, list3_tmp->b);
         list3_tmp = list3_tmp->next;
     }
-    ud_list_free(list);
-    ud_list_free(list2);
-    ud_list_free(list3);
+    ud_list_free(ud_list_test, list);
+    ud_list_free(ud_list_test, list2);
+    ud_list_free(ud_list_test, list3);
+    ud_list_free(ud_list_test, list4);
+    // ud_list_type_print();
 }
