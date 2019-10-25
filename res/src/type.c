@@ -65,7 +65,6 @@ ud_list_type    *ud_list_type_free_ctr(ud_list_type **p_list, void *p_type_name)
         ud_ut_free(curr);
     }
     (void)p_type_name;
-    printf("ok\n");
     return NULL;
 }
 
