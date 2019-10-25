@@ -60,6 +60,7 @@ ud_list_type    *ud_list_type_free_ctr(ud_list_type **p_list, void *p_type_name)
 
     while (list)
     {
+        printf("%s\n", list->type_name);
         curr = list;
         printf("%s\n", list->type_name);
         list = list->next;
@@ -67,6 +68,7 @@ ud_list_type    *ud_list_type_free_ctr(ud_list_type **p_list, void *p_type_name)
         ud_ut_free(curr);
         printf("%s\n", list->type_name);
     }
+        printf("%s\n", list->type_name);
     (void)p_type_name;
     return NULL;
 }
