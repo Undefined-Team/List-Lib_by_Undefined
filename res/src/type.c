@@ -1,6 +1,6 @@
 #include "ud_list.h"
 
-void __attribute__ ((destructor))  ud_list_type_dtor() { ud_list_type_free(); }
+void __attribute__ ((destructor (101)))  ud_list_type_dtor() { ud_list_type_free(); }
 
 ud_list_define_noconstructor(ud_list, ud_list_default_free, NULL);
 
