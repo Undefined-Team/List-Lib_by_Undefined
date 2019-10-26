@@ -2,7 +2,7 @@
 
 void __attribute__ ((destructor))  ud_list_type_dtor() { ud_list_type_free(); }
 
-ud_list_define(ud_list, ud_list_default_free, NULL);
+ud_list_define_noconstructor(ud_list, ud_list_default_free, NULL);
 
 ud_list_type *ud_list_type_new(ud_list_type *found, void (*fp_free)(void *), void (*fp_print)(void *), char *type_name)
 {
@@ -11,7 +11,6 @@ ud_list_type *ud_list_type_new(ud_list_type *found, void (*fp_free)(void *), voi
     if (found) return NULL;
     else
     {
-        printf(">> add type %s\n", type_name);
         ud_ut_prot_malloc(elem = ud_ut_malloc(sizeof(ud_list_type)));
         elem->fp_free = fp_free;
         elem->fp_print = fp_print;
@@ -64,7 +63,6 @@ ud_list_type    *ud_list_type_free_ctr(ud_list_type **p_list, void *p_type_name)
 
     while (list)
     {
-        printf("%s\n", list->type_name);
         curr = list;
         list = list->next;
         ud_ut_free(curr);

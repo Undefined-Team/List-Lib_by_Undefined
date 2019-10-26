@@ -5,7 +5,6 @@ void    ud_list_free_ctr(char *type_name, void *list)
     ud_list_type *type_info = ud_list_type_get(type_name);
     void (*fp_free)(void *val) = NULL;
     if (type_info) fp_free = type_info->fp_free;
-    printf("FREE WITH %p\n", fp_free);
     ud_list *curr = list;
     ud_list *tmp;
     while (curr)

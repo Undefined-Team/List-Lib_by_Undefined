@@ -134,15 +134,19 @@ typedef struct              uds_list_type {
     }                           ctype; \
     ud_list_type *ud_list_type_ ## ctype(void);
 
-# define ud_list_define(ctype, fp_free, fp_print) \
+# define ud_list_define_noconstructor(ctype, fp_free, fp_print) \
     void fp_free(void *val); \
-    void __attribute__ ((constructor))  ctype ## _ctor() { ud_list_type_ ## ctype(); } \
     ud_list_type *ud_list_type_ ## ctype(void) \
     { \
         static ud_list_type *type_ ## ctype = NULL; \
         if (!type_ ## ctype) type_ ## ctype = ud_list_type_init(ctype, fp_free, fp_print); \
         return type_ ## ctype; \
     }
+
+# define ud_list_define(ctype, fp_free, fp_print) \
+    void __attribute__ ((constructor))  ctype ## _ctor() { ud_list_type_ ## ctype(); } \
+    ud_list_define_noconstructor(ctype, fp_free, fp_print)
+
 
 ud_list_struct(ud_list, void *data);
 
