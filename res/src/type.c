@@ -44,6 +44,19 @@ ud_list_type    *ud_list_type_add(ud_list_type **p_list, void *v_new_elem)
     return list;
 }
 
+static int     ud_list_type_str_cmp(char *p1, char *p2)
+{
+    if (!p1)
+        return -1;
+    else if (!p2)
+        return 1;
+    unsigned char *s1 = (unsigned char *)p1;
+    unsigned char *s2 = (unsigned char *)p2;
+    
+    for (; *s1 && *s2 && *s1 == *s2; ++s1, ++s2);
+    return *s1 - *s2;
+}
+
 ud_list_type    *ud_list_type_get_ctr(ud_list_type **p_list, void *p_type_name)
 {
     if (!p_list || !p_type_name) return NULL;
@@ -52,7 +65,7 @@ ud_list_type    *ud_list_type_get_ctr(ud_list_type **p_list, void *p_type_name)
     ud_list_type *curr = list;
     
     for (; curr; curr = curr->next)
-        if (!ud_str_cmp(type_name, curr->type_name)) return curr;
+        if (!ud_list_type_str_cmp(type_name, curr->type_name)) return curr;
     return NULL;
 }
 

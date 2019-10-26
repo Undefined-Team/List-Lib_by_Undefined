@@ -4,7 +4,6 @@
 // Lib
 #include <ud_utils.h>
 #include <ud_memory.h>
-#include <ud_string.h>
 
 // Macro
 # define ud_list_type_init(ctype, fp_free, fp_print)    ud_list_type_ctr(&ud_list_type_add, ud_list_type_new(ud_list_type_ctr(&ud_list_type_get_ctr, #ctype), fp_free, fp_print, #ctype))
