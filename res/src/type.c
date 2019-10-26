@@ -2,22 +2,26 @@
 
 void __attribute__ ((destructor))  ud_list_type_dtor() { ud_list_type_free(); }
 
+ud_list_define(ud_list, ud_list_default_free, NULL);
+
 ud_list_type *ud_list_type_new(ud_list_type *found, void (*fp_free)(void *), void (*fp_print)(void *), char *type_name)
 {
-    ud_list_type *list = NULL;
+    ud_list_type *elem = NULL;
 
-    if (!found)
+    if (found) return NULL;
+    else
     {
-        ud_ut_prot_malloc(list = ud_ut_malloc(sizeof(ud_list_type)));
-        list->fp_free = fp_free;
-        list->fp_print = fp_print;
-        list->next = NULL;
-        list->type_name = type_name;
+        printf(">> add type %s\n", type_name);
+        ud_ut_prot_malloc(elem = ud_ut_malloc(sizeof(ud_list_type)));
+        elem->fp_free = fp_free;
+        elem->fp_print = fp_print;
+        elem->next = NULL;
+        elem->type_name = type_name;
     }
-    return list;
+    return elem;
 }
 
-void            ud_list_type_default_free(void *val)
+void            ud_list_default_free(void *val)
 {
     ud_list *list = (ud_list *)val;
     ud_ut_free(list);
@@ -31,17 +35,17 @@ ud_list_type    *ud_list_type_add(ud_list_type **p_list, void *v_new_elem)
 
     if (!list)
     {
-        list = ud_list_type_new(NULL, &ud_list_type_default_free, NULL, "ud_list");
+        list = ud_list_type_new(NULL, &ud_list_default_free, NULL, "ud_list");
         end = list;
     }
     ud_list_type *new_elem = (ud_list_type *)v_new_elem;
     end->next = new_elem;
-    end = end->next;
+    end = new_elem;
     *p_list = list;
     return list;
 }
 
-ud_list_type    *ud_list_type_search_ctr(ud_list_type **p_list, void *p_type_name)
+ud_list_type    *ud_list_type_get_ctr(ud_list_type **p_list, void *p_type_name)
 {
     if (!p_list || !p_type_name) return NULL;
     ud_list_type *list = *p_list;
@@ -60,6 +64,7 @@ ud_list_type    *ud_list_type_free_ctr(ud_list_type **p_list, void *p_type_name)
 
     while (list)
     {
+        printf("%s\n", list->type_name);
         curr = list;
         list = list->next;
         ud_ut_free(curr);
