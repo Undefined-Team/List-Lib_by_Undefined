@@ -2,6 +2,7 @@
 
 void    ud_list_free_ctr(char *type_name, void *list)
 {
+    if (!list) return;
     ud_list_type *type_info = ud_list_type_get(type_name);
     void (*fp_free)(void *val) = NULL;
     if (type_info) fp_free = type_info->fp_free;
